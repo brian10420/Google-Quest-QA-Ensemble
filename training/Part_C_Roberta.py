@@ -195,7 +195,7 @@ def run_fold(fold, train_idx, val_idx, df, tokenizer, cat_encoder):
 
 # --- Main ---
 if __name__ == "__main__":
-    df = pd.read_csv('train.csv')
+    df = pd.read_csv(r'data\train.csv')
     
     # --- 關鍵修正處 ---
     le = LabelEncoder()

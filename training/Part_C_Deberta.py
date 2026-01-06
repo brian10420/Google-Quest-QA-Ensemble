@@ -211,11 +211,11 @@ def run_fold(fold, train_idx, val_idx, df, tokenizer, cat_encoder):
     return best_score
 
 if __name__ == "__main__":
-    if not os.path.exists('train.csv'):
+    if not os.path.exists(r'data\train.csv'):
         print("請確保 train.csv 位於同一目錄下")
         sys.exit(1)
         
-    df = pd.read_csv('train.csv')
+    df = pd.read_csv(r'data\train.csv')
     
     le = LabelEncoder()
     le.fit(df['category'])

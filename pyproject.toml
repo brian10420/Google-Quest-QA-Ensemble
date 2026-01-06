@@ -2,28 +2,12 @@
 name = "google-quest-qa-ensemble"
 version = "1.0.0"
 description = "Adaptive multi-model ensemble for Google QUEST Q&A Labeling"
-readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
-authors = [
-    { name = "Your Name", email = "your.email@example.com" }
-]
-keywords = ["kaggle", "nlp", "ensemble-learning", "transformers", "mamba", "pytorch", "deep-learning"]
-
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-]
 
 dependencies = [
-    # Core Deep Learning (with CUDA support via custom index)
-    "torch>=2.0.0",
-    "torchvision>=0.15.0",
+    # Core Deep Learning (with CUDA support)
+    "torch>=2.9.1",
+    "torchvision>=0.24.1",
     "torchaudio>=2.0.0",
     
     # Transformers and NLP
@@ -33,11 +17,11 @@ dependencies = [
     "sentencepiece>=0.1.99",
     "accelerate>=0.20.0",
     
-    # Mamba (State Space Models) - Critical for long sequence modeling
+    # Mamba (State Space Models)
     "mamba-ssm>=1.0.0",
     "causal-conv1d>=1.0.0",
     
-    # 8-bit optimization for efficient training
+    # 8-bit optimization
     "bitsandbytes>=0.41.0",
     
     # Scientific Computing
@@ -57,147 +41,33 @@ dependencies = [
     "matplotlib>=3.7.0",
     "seaborn>=0.12.0",
     
-    # Kaggle API (optional but useful)
-    "kaggle>=1.5.0",
-    
-    # Additional utilities for robust training
+    # Additional utilities
     "einops>=0.6.0",
     "triton>=2.0.0",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-    # Development Tools
     "jupyter>=1.0.0",
     "ipywidgets>=8.0.0",
     "ipykernel>=6.0.0",
-    "notebook>=7.0.0",
-    
-    # Code Quality
-    "black>=23.0.0",
-    "isort>=5.12.0",
-    "flake8>=6.0.0",
-    "mypy>=1.0.0",
-    "ruff>=0.1.0",
-    
-    # Testing
-    "pytest>=7.0.0",
-    "pytest-cov>=4.0.0",
-]
-
-visualization = [
-    "tensorboard>=2.13.0",
-    "plotly>=5.14.0",
-    "wandb>=0.15.0",
-]
-
-all = [
-    "google-quest-qa-ensemble[dev,visualization]",
-]
-
-[project.urls]
-Homepage = "https://github.com/yourusername/Google-Quest-QA-Ensemble"
-Repository = "https://github.com/yourusername/Google-Quest-QA-Ensemble"
-"Bug Tracker" = "https://github.com/yourusername/Google-Quest-QA-Ensemble/issues"
-"Kaggle Competition" = "https://www.kaggle.com/competitions/google-quest-challenge"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-# ==========================================
-# UV-Specific Configuration
-# ==========================================
-
-[tool.uv]
-dev-dependencies = [
-    "jupyter>=1.0.0",
-    "ipywidgets>=8.0.0",
 ]
 
 # ==========================================
-# PyTorch CUDA Support (Critical for GPU Training)
+# PyTorch CUDA Support
 # ==========================================
-# This ensures PyTorch is installed with CUDA 13.0 support
-# Compatible with RTX 4090 and other modern NVIDIA GPUs
-
 [[tool.uv.index]]
-name = "pytorch-cu130"
-url = "https://download.pytorch.org/whl/cu130"
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
 explicit = true
 
 [tool.uv.sources]
 torch = [
-    { index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { index = "pytorch-cu128", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
 ]
 torchvision = [
-    { index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { index = "pytorch-cu128", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
 ]
 torchaudio = [
-    { index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+    { index = "pytorch-cu128", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
 ]
-
-# ==========================================
-# Code Formatting & Linting
-# ==========================================
-
-[tool.black]
-line-length = 120
-target-version = ['py310']
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.eggs
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
-
-[tool.isort]
-profile = "black"
-line_length = 120
-skip_gitignore = true
-
-[tool.mypy]
-python_version = "3.10"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = false
-ignore_missing_imports = true
-
-[tool.ruff]
-line-length = 120
-target-version = "py310"
-
-# ==========================================
-# Notes for Installation
-# ==========================================
-# 
-# GPU Support:
-# - This configuration installs PyTorch with CUDA 13.0 support
-# - Compatible with NVIDIA GPUs (RTX 30/40 series, A100, etc.)
-# - If you have a different CUDA version, modify the index URL:
-#   - CUDA 11.8: https://download.pytorch.org/whl/cu118
-#   - CUDA 12.1: https://download.pytorch.org/whl/cu121
-#
-# Mamba Dependencies:
-# - mamba-ssm: Core Mamba implementation
-# - causal-conv1d: Required for Mamba's efficient convolutions
-# - triton: JIT compiler for GPU kernels (used by Mamba)
-#
-# Installation:
-# 1. uv venv
-# 2. uv sync
-# 3. Verify: uv run python -c "import torch; print(torch.cuda.is_available())"
-#
-# Troubleshooting:
-# - If CUDA not detected: Reinstall PyTorch with correct CUDA version
-# - If Mamba fails: Ensure triton is installed (Linux/WSL recommended)
-# - If bitsandbytes fails: Update CUDA toolkit or use CPU-only version

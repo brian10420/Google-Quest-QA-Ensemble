@@ -90,7 +90,7 @@ if __name__ == "__main__":
     print(f"Running on {CONFIG['device']} with {CONFIG['model_name']}")
     
     # Load Data
-    df = pd.read_csv('train.csv')
+    df = pd.read_csv(r'data/train.csv')
     if CONFIG['debug']:
         df = df.head(100) # Debug 只用 100 筆
         print("!! DEBUG MODE: Using only 100 samples !!")

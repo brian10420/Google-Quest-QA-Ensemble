@@ -4,7 +4,7 @@ import seaborn as sns
 from transformers import AutoTokenizer
 
 # Load Data
-df = pd.read_csv('train.csv') # 請確保路徑正確
+df = pd.read_csv(r'data/train.csv') # 請確保路徑正確
 
 # 1. Label 離散性分析 (以 answer_helpfulness 為例)
 plt.figure(figsize=(10, 5))

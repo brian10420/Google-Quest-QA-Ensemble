@@ -16,7 +16,7 @@ import gc
 # ==========================================
 # 0. 環境設定 (解決顯存破碎化問題)
 # ==========================================
-os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+os.environ["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"
 
 # ==========================================
 # 1. Config (針對 24GB 顯存優化)
@@ -223,11 +223,11 @@ def run_fold(fold, train_idx, val_idx, df, tokenizer, cat_encoder):
     return best_score
 
 if __name__ == "__main__":
-    if not os.path.exists('train.csv'):
+    if not os.path.exists(r"data/train.csv"):
         print("Please upload train.csv")
         sys.exit(1)
 
-    df = pd.read_csv('train.csv')
+    df = pd.read_csv(r"data/train.csv")
     le = LabelEncoder()
     le.fit(df['category'])
     

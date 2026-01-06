@@ -17,7 +17,7 @@ import bitsandbytes as bnb
 # ==========================================
 # 0. Environment & Config
 # ==========================================
-os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+os.environ["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"
 
 CONFIG = {
     'model_name': 'state-spaces/mamba2-1.3b',
@@ -321,11 +321,11 @@ def run_fold(fold, train_idx, val_idx, df, tokenizer, cat_encoder):
     return best_score
 
 if __name__ == "__main__":
-    if not os.path.exists('train.csv'):
+    if not os.path.exists(r'data\train.csv'):
         print("Please upload train.csv")
         sys.exit(1)
 
-    df = pd.read_csv('train.csv')
+    df = pd.read_csv(r'data\train.csv')
     le = LabelEncoder()
     le.fit(df['category'])
     
