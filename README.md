@@ -144,7 +144,7 @@ uv venv
 source .venv/bin/activate
 
 # Sync all dependencies from pyproject.toml
-# This automatically installs PyTorch with CUDA 13.0 support
+# This automatically installs PyTorch with CUDA 12.8 support
 uv sync
 
 # Verify installation
@@ -163,7 +163,7 @@ GPU: NVIDIA GeForce RTX 4090
 **⚠️ Important**: This project requires GPU for training. If you encounter issues:
 - See detailed [GPU Setup Guide](GPU_SETUP.md)
 - Check NVIDIA driver version: `nvidia-smi`
-- Verify CUDA version matches (13.0 default, configurable in `pyproject.toml`)
+- Verify CUDA version matches (12.8 default, configurable in `pyproject.toml`)
 
 ### Download Competition Data
 
@@ -183,7 +183,7 @@ ls data/
 Google-Quest-QA-Ensemble/
 │
 ├── pyproject.toml                   # UV project configuration & dependencies
-│                                    # Includes PyTorch CUDA 13.0 setup
+│                                    # Includes PyTorch CUDA 12.8 setup
 ├── uv.lock                          # Locked dependencies for reproducibility
 ├── README.md                        # This file
 ├── GPU_SETUP.md                     # Detailed GPU installation guide
@@ -463,22 +463,22 @@ Separate meta-learners for each of 30 targets, allowing specialized optimization
 
 ### PyTorch CUDA Setup
 
-The project uses **PyTorch with CUDA 13.0** by default, configured in `pyproject.toml`:
+The project uses **PyTorch with CUDA 12.8** by default, configured in `pyproject.toml`:
 
 ```toml
 [[tool.uv.index]]
-name = "pytorch-cu130"
-url = "https://download.pytorch.org/whl/cu130"
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
 explicit = true
 
 [tool.uv.sources]
-torch = [{ index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" }]
-torchvision = [{ index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" }]
-torchaudio = [{ index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" }]
+torch = [{ index = "pytorch-cu128", marker = "sys_platform == 'linux' or sys_platform == 'win32'" }]
+torchvision = [{ index = "pytorch-cu128", marker = "sys_platform == 'linux' or sys_platform == 'win32'" }]
+torchaudio = [{ index = "pytorch-cu128", marker = "sys_platform == 'linux' or sys_platform == 'win32'" }]
 ```
 
 **Supported CUDA Versions**:
-- CUDA 13.0 (default) - RTX 40 series, A100
+- CUDA 12.8 (default) - RTX 40 series, A100
 - CUDA 11.8 - RTX 30 series, V100
 - CUDA 12.1 - Latest version
 
@@ -568,7 +568,7 @@ uv sync
 
 # Solution 3: Check PyTorch version
 uv run python -c "import torch; print(torch.__version__)"
-# Should show: 2.x.x+cu130 (not 2.x.x+cpu)
+# Should show: 2.x.x+cu128 (not 2.x.x+cpu)
 
 # For detailed troubleshooting, see GPU_SETUP.md
 ```
